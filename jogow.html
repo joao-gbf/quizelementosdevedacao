@@ -1,114 +1,121 @@
-index.html
-```
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz de Vedação</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: url('https://www.juntasdevedacao.com.br/blog/doutor/uploads/0/blog/2024/12/blog-juntas-de-veda-ccedil-atilde-o-para-flanges-tudo-que-voc-ecirc-precisa-saber-8fe4b7b516.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+        }
+        .quiz-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #ffcc00;
+            border-radius: 15px;
+            box-shadow: 4px 4px 20px rgba(255, 204, 0, 0.6);
+            background-color: rgba(46, 46, 62, 0.9);
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            background-color: #ffcc00;
+            color: #1e1e2e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #ffaa00;
+        }
+        .restart-container {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="quiz-container">
         <h2 id="question">Pergunta aqui</h2>
         <div id="answers"></div>
         <h3 id="score">Pontuação: 0</h3>
-        <button id="restart" style="display: none;">Refazer Quiz</button>
     </div>
-    <script src="script.js"></script>
+    <div class="restart-container" id="restart-container">
+        <p>Gostou do quiz? Clique no botão abaixo para jogar novamente!</p>
+        <button onclick="restartQuiz()">Reiniciar Quiz</button>
+    </div>
+    
+    <script>
+      const questions = [
+            { question: "O que é um O-ring?", answers: ["Um tipo de vedação", "Uma ferramenta de corte", "Um sensor de pressão"], correct: 0 },
+            { question: "Qual material é usado para vedações em altas temperaturas?", answers: ["Borracha", "Papelão hidráulico", "Plástico comum"], correct: 1 },
+            { question: "O que o Teflon ajuda a evitar?", answers: ["Desgaste e atrito", "Corrosão elétrica", "Acúmulo de poeira"], correct: 0 },
+            { question: "Qual é a principal função de uma vedação?", answers: ["Evitar vazamentos", "Reduzir o peso da máquina", "Aumentar a pressão interna"], correct: 0 },
+            { question: "Onde são mais comumente usados os O-rings?", answers: ["Motores e sistemas hidráulicos", "Circuitos elétricos", "Componentes de madeira"], correct: 0 },
+            { question: "O que pode causar falha em uma vedação?", answers: ["Temperatura excessiva", "Uso correto", "Apenas o tempo de uso"], correct: 0 },
+            { question: "O que caracteriza o papelão hidráulico?", answers: ["Alta resistência química", "Flexibilidade extrema", "Baixa durabilidade"], correct: 0 },
+            { question: "Quais são as principais vantagens do Teflon?", answers: ["Alta resistência térmica e química", "Facilidade de decomposição", "Alto custo e fragilidade"], correct: 0 },
+            { question: "Como evitar vazamentos em um sistema vedado?", answers: ["Usando materiais adequados", "Apertando muito os parafusos", "Usando menos vedação"], correct: 0 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let quizFinished = false;
+
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                document.getElementById("question").textContent = "Fim do quiz! Sua pontuação: " + score;
+                document.getElementById("answers").innerHTML = "";
+                document.getElementById("restart-container").style.display = "block";
+                quizFinished = true;
+                return;
+            }
+            const q = questions[currentQuestion];
+            document.getElementById("question").textContent = q.question;
+            const answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
+            
+            q.answers.forEach((answer, index) => {
+                const btn = document.createElement("button");
+                btn.textContent = answer;
+                btn.onclick = () => checkAnswer(index, q.correct);
+                answersDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex, correctIndex) {
+            if (quizFinished) return;
+
+            if (selectedIndex === correctIndex) {
+                alert("Correto!");
+                score += 2;
+            } else {
+                alert("Errado! A resposta certa é: " + questions[currentQuestion].answers[correctIndex]);
+                score -= 1;
+            }
+            document.getElementById("score").textContent = "Pontuação: " + score;
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            quizFinished = false;
+            document.getElementById("score").textContent = "Pontuação: 0";
+            document.getElementById("restart-container").style.display = "none";
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
 </body>
 </html>
-```
-
-style.css
-```
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
-    background: url('https://www.juntasdevedacao.com.br/blog/doutor/uploads/0/blog/2024/12/blog-juntas-de-veda-ccedil-atilde-o-para-flanges-tudo-que-voc-ecirc-precisa-saber-8fe4b7b516.png') no-repeat center center fixed;
-    background-size: cover;
-    color: #ffffff;
-}
-.quiz-container {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    border: 2px solid #ffcc00;
-    border-radius: 15px;
-    box-shadow: 4px 4px 20px rgba(255, 204, 0, 0.6);
-    background-color: rgba(46, 46, 62, 0.9);
-}
-button {
-    margin-top: 10px;
-    padding: 10px;
-    width: 100%;
-    background-color: #ffcc00;
-    color: #1e1e2e;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-button:hover {
-    background-color: #ffaa00;
-}
-```
-
-script.js
-```
-const questions = [
-    { question: "O que é um O-ring?", answers: ["Um tipo de vedação", "Uma ferramenta de corte", "Um sensor de pressão"], correct: 0 },
-    { question: "Qual material é usado para vedações em altas temperaturas?", answers: ["Borracha", "Papelão hidráulico", "Plástico comum"], correct: 1 },
-];
-
-let currentQuestion = 0;
-let score = 0;
-let quizFinished = false;
-
-function loadQuestion() {
-    if (currentQuestion >= questions.length) {
-        document.getElementById("question").textContent = "Fim do quiz! Sua pontuação: " + score;
-        document.getElementById("answers").innerHTML = "";
-        document.getElementById("restart").style.display = "block";
-        quizFinished = true;
-        return;
-    }
-    const q = questions[currentQuestion];
-    document.getElementById("question").textContent = q.question;
-    const answersDiv = document.getElementById("answers");
-    answersDiv.innerHTML = "";
-    
-    q.answers.forEach((answer, index) => {
-        const btn = document.createElement("button");
-        btn.textContent = answer;
-        btn.onclick = () => checkAnswer(index, q.correct);
-        answersDiv.appendChild(btn);
-    });
-}
-
-function checkAnswer(selectedIndex, correctIndex) {
-    if (quizFinished) return;
-    if (selectedIndex === correctIndex) {
-        alert("Correto!");
-        score += 2;
-    } else {
-        alert("Errado! A resposta certa é: " + questions[currentQuestion].answers[correctIndex]);
-        score -= 1;
-    }
-    document.getElementById("score").textContent = "Pontuação: " + score;
-    currentQuestion++;
-    loadQuestion();
-}
-
-document.getElementById("restart").addEventListener("click", () => {
-    currentQuestion = 0;
-    score = 0;
-    quizFinished = false;
-    document.getElementById("score").textContent = "Pontuação: 0";
-    document.getElementById("restart").style.display = "none";
-    loadQuestion();
-});
-
-loadQuestion();
-```
