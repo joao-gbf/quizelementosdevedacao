@@ -11,7 +11,7 @@ Este é um quiz interativo sobre vedação industrial. Ele apresenta perguntas d
 2. Abra o arquivo `index.html` em um navegador
 
 ## 📷 Preview do Projeto
-![Screenshot](screenshot.png) *(Adicione uma imagem aqui se quiser)*
+![Screenshot](screenshot.png) 
 
 ## 🏆 Objetivo do Projeto
 Criar um quiz interativo para testar conhecimentos sobre vedação industrial.
