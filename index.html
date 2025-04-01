@@ -40,6 +40,13 @@
             margin-top: 20px;
             display: none;
         }
+        .ranking {
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #ffcc00;
+            background-color: rgba(30, 30, 46, 0.9);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -49,12 +56,17 @@
         <h3 id="score">Pontuação: 0</h3>
     </div>
     <div class="restart-container" id="restart-container">
-        <p>Gostou do quiz? Clique no botão abaixo para jogar novamente!</p>
-        <button onclick="restartQuiz()">Reiniciar Quiz</button>
+        <p>Gostou do quiz? Insira seu nome para salvar sua pontuação!</p>
+        <input type="text" id="playerName" placeholder="Seu nome">
+        <button onclick="saveScore()">Salvar e Reiniciar</button>
+    </div>
+    <div class="ranking" id="ranking">
+        <h3>Ranking</h3>
+        <ol id="rankingList"></ol>
     </div>
     
     <script>
-      const questions = [
+        const questions = [
             { question: "O que é um O-ring?", answers: ["Um tipo de vedação", "Uma ferramenta de corte", "Um sensor de pressão"], correct: 0 },
             { question: "Qual material é usado para vedações em altas temperaturas?", answers: ["Borracha", "Papelão hidráulico", "Plástico comum"], correct: 1 },
             { question: "O que o Teflon ajuda a evitar?", answers: ["Desgaste e atrito", "Corrosão elétrica", "Acúmulo de poeira"], correct: 0 },
@@ -63,7 +75,8 @@
             { question: "O que pode causar falha em uma vedação?", answers: ["Temperatura excessiva", "Uso correto", "Apenas o tempo de uso"], correct: 0 },
             { question: "O que caracteriza o papelão hidráulico?", answers: ["Alta resistência química", "Flexibilidade extrema", "Baixa durabilidade"], correct: 0 },
             { question: "Quais são as principais vantagens do Teflon?", answers: ["Alta resistência térmica e química", "Facilidade de decomposição", "Alto custo e fragilidade"], correct: 0 },
-            { question: "Como evitar vazamentos em um sistema vedado?", answers: ["Usando materiais adequados", "Apertando muito os parafusos", "Usando menos vedação"], correct: 0 }
+            { question: "Como evitar vazamentos em um sistema vedado?", answers: ["Usando materiais adequados", "Apertando muito os parafusos", "Usando menos vedação"], correct: 0 },
+            { question: "Para que servem, respectivamente, o papelão hidráulico, o O-ring e o Teflon?", answers: ["Vedação em alta temperatura e pressão, vedação de fluidos e gases, redução de atrito e resistência química", "Isolamento elétrico, absorção de impacto, vedação em sistemas hidráulicos", "Fixação de componentes, condução elétrica, isolamento térmico"], correct: 0 }
         ];
 
         let currentQuestion = 0;
@@ -82,7 +95,6 @@
             document.getElementById("question").textContent = q.question;
             const answersDiv = document.getElementById("answers");
             answersDiv.innerHTML = "";
-            
             q.answers.forEach((answer, index) => {
                 const btn = document.createElement("button");
                 btn.textContent = answer;
@@ -93,9 +105,8 @@
 
         function checkAnswer(selectedIndex, correctIndex) {
             if (quizFinished) return;
-
             if (selectedIndex === correctIndex) {
-                alert("Correto!");
+                alert("Resposta correta!");
                 score += 2;
             } else {
                 alert("Errado! A resposta certa é: " + questions[currentQuestion].answers[correctIndex]);
@@ -106,16 +117,41 @@
             loadQuestion();
         }
 
+        function saveScore() {
+            const playerName = document.getElementById("playerName").value.trim();
+            if (!playerName) return alert("Por favor, insira seu nome.");
+            let ranking = JSON.parse(localStorage.getItem("quizRanking")) || [];
+            ranking.push({ name: playerName, score: score });
+            ranking.sort((a, b) => b.score - a.score).slice(0, 5);
+            localStorage.setItem("quizRanking", JSON.stringify(ranking));
+            updateRanking();
+            restartQuiz();
+        }
+
+        function updateRanking() {
+            const rankingList = document.getElementById("rankingList");
+            rankingList.innerHTML = "";
+            JSON.parse(localStorage.getItem("quizRanking"))?.forEach(entry => {
+                const li = document.createElement("li");
+                li.textContent = `${entry.name}: ${entry.score} pontos`;
+                rankingList.appendChild(li);
+            });
+        }
+
         function restartQuiz() {
             currentQuestion = 0;
             score = 0;
             quizFinished = false;
             document.getElementById("score").textContent = "Pontuação: 0";
             document.getElementById("restart-container").style.display = "none";
+            document.getElementById("playerName").value = "";
             loadQuestion();
         }
 
         loadQuestion();
+        updateRanking();
     </script>
 </body>
 </html>
+
+
