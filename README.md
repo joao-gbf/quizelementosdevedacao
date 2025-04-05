@@ -1,17 +1,20 @@
 
-Este é um quiz interativo sobre vedação industrial. Ele apresenta perguntas de múltipla escolha e calcula a pontuação do usuário.
+This is an interactive quiz about industrial sealing. It features multiple-choice questions and calculates the user's score.
 
-## 🚀 Tecnologias Utilizadas
+## 🚀 Technologies Used
 - HTML
 - CSS
 - JavaScript
 
-## 📌 Como Rodar o Projeto
-1. Baixe ou clone este repositório
-2. Abra o arquivo `index.html` em um navegador
+## 📌 How to Run the Project
+1. Download or clone this repository
+2. Open the `index.html` file in a browser
 
-## 📷 Preview do Projeto
-![Screenshot](screenshot.png) 
+## 📷 Project Preview
+![Screenshot](screenshot.png)
 
-## 🏆 Objetivo do Projeto
-Criar um quiz interativo para testar conhecimentos sobre vedação industrial.
+## 🏆 Project Goal
+Create an interactive quiz to test knowledge about industrial sealing.
+
+Se quiser adicionar botão de demo, licença ou instruções extras, posso te ajudar também!
+
