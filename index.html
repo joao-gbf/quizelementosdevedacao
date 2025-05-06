@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz de Vedação</title>
     <style>
+        /* Estilo básico do corpo da página */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -13,6 +14,8 @@
             background-size: cover;
             color: #ffffff;
         }
+
+        /* Container principal do quiz */
         .quiz-container {
             max-width: 500px;
             margin: auto;
@@ -22,6 +25,8 @@
             box-shadow: 4px 4px 20px rgba(255, 204, 0, 0.6);
             background-color: rgba(46, 46, 62, 0.9);
         }
+
+        /* Estilo dos botões */
         button {
             margin-top: 10px;
             padding: 10px;
@@ -33,9 +38,13 @@
             cursor: pointer;
             font-weight: bold;
         }
+
+        /* Efeito ao passar o mouse no botão */
         button:hover {
             background-color: #ffaa00;
         }
+
+        /* Container de reinício do quiz (inicialmente escondido) */
         .restart-container {
             margin-top: 20px;
             display: none;
@@ -43,18 +52,22 @@
     </style>
 </head>
 <body>
+    <!-- Área do quiz -->
     <div class="quiz-container">
-        <h2 id="question">Pergunta aqui</h2>
-        <div id="answers"></div>
-        <h3 id="score">Pontuação: 0</h3>
+        <h2 id="question">Pergunta aqui</h2> <!-- Aqui será exibida a pergunta -->
+        <div id="answers"></div> <!-- Aqui aparecem as opções de resposta -->
+        <h3 id="score">Pontuação: 0</h3> <!-- Pontuação atual do jogador -->
     </div>
+
+    <!-- Área para reiniciar o quiz após terminar -->
     <div class="restart-container" id="restart-container">
         <p>Gostou do quiz? Clique no botão abaixo para jogar novamente!</p>
         <button onclick="restartQuiz()">Reiniciar Quiz</button>
     </div>
     
     <script>
-      const questions = [
+        // Lista de perguntas do quiz com respostas e o índice da correta
+        const questions = [
             { question: "O que é um O-ring?", answers: ["Um tipo de vedação", "Uma ferramenta de corte", "Um sensor de pressão"], correct: 0 },
             { question: "Qual material é usado para vedações em altas temperaturas?", answers: ["Borracha", "Papelão hidráulico", "Plástico comum"], correct: 1 },
             { question: "O que o Teflon ajuda a evitar?", answers: ["Desgaste e atrito", "Corrosão elétrica", "Acúmulo de poeira"], correct: 0 },
@@ -67,11 +80,14 @@
             { question: "Para que servem, respectivamente, o papelão hidráulico, o O-ring e o Teflon?", answers: ["Vedação em alta temperatura e pressão, vedação de fluidos e gases, redução de atrito e resistência química", "Isolamento elétrico, absorção de impacto, vedação em sistemas hidráulicos", "Fixação de componentes, condução elétrica, isolamento térmico"], correct: 0 }
         ];
 
+        // Variáveis de controle do quiz
         let currentQuestion = 0;
         let score = 0;
         let quizFinished = false;
 
+        // Carrega a pergunta atual na tela
         function loadQuestion() {
+            // Se todas as perguntas foram respondidas, exibe o resultado final
             if (currentQuestion >= questions.length) {
                 document.getElementById("question").textContent = "Fim do quiz! Sua pontuação: " + score;
                 document.getElementById("answers").innerHTML = "";
@@ -79,21 +95,24 @@
                 quizFinished = true;
                 return;
             }
+
+            // Exibe a pergunta atual e gera os botões de resposta
             const q = questions[currentQuestion];
             document.getElementById("question").textContent = q.question;
             const answersDiv = document.getElementById("answers");
             answersDiv.innerHTML = "";
-            
+
             q.answers.forEach((answer, index) => {
                 const btn = document.createElement("button");
                 btn.textContent = answer;
-                btn.onclick = () => checkAnswer(index, q.correct);
+                btn.onclick = () => checkAnswer(index, q.correct); // Verifica a resposta ao clicar
                 answersDiv.appendChild(btn);
             });
         }
 
+        // Verifica se a resposta está correta e atualiza a pontuação
         function checkAnswer(selectedIndex, correctIndex) {
-            if (quizFinished) return;
+            if (quizFinished) return; // Se o quiz já terminou, não faz nada
 
             if (selectedIndex === correctIndex) {
                 alert("Correto!");
@@ -102,23 +121,24 @@
                 alert("Errado! A resposta certa é: " + questions[currentQuestion].answers[correctIndex]);
                 score -= 1;
             }
+
             document.getElementById("score").textContent = "Pontuação: " + score;
-            currentQuestion++;
-            loadQuestion();
+            currentQuestion++; // Vai para a próxima pergunta
+            loadQuestion(); // Carrega a próxima pergunta
         }
 
+        // Reinicia o quiz
         function restartQuiz() {
             currentQuestion = 0;
             score = 0;
             quizFinished = false;
             document.getElementById("score").textContent = "Pontuação: 0";
             document.getElementById("restart-container").style.display = "none";
-            loadQuestion();
+            loadQuestion(); // Recomeça do início
         }
 
+        // Começa o quiz automaticamente ao carregar a página
         loadQuestion();
     </script>
 </body>
 </html>
-
-
